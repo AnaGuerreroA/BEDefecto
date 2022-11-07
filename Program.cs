@@ -25,6 +25,14 @@ builder.Services.AddCors(options =>
                       });
 });
 
+ builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+            });
+
 var app = builder.Build();
 
 app.MapGet("/dbconexion", async([FromServices] DefectoContext dbContext) =>
@@ -45,6 +53,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("CorsPolicy");
 
 app.UseHttpsRedirection();
 

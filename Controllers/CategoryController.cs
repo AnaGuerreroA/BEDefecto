@@ -13,12 +13,20 @@ namespace BEDefecto.Controllers
             _context = context;
         }
 
-        //httpget categories
+        
         [HttpGet]
         [Route("api/categories")]
-        public IActionResult GetCategories()
+        public IActionResult GetCategories([FromQuery]int limit, [FromQuery]int offset)
         {
-            var categories = _context.Categories.ToList();
+            var categories = new List<Category>();
+            //if limit and offset are 0, return all categories
+            if (limit == 0 && offset == 0)
+            {
+                categories = _context.Categories.ToList();               
+            }else  {
+                categories = _context.Categories.Skip(offset).Take(limit).ToList();
+            }      
+  
             return Ok(categories);
         }
 
@@ -52,6 +60,13 @@ namespace BEDefecto.Controllers
             return Ok(category);
         }
         
-        
+        //get product by category
+        [HttpGet]
+        [Route("api/categories/{id}/products")]
+        public IActionResult GetProductByCategory(int id, [FromQuery]int limit, [FromQuery]int offset)
+        {
+            var products = _context.Products.Where(p => p.CategoryId == id).Skip(offset).Take(limit).ToList();
+            return Ok(products);
+        }
     }
 }
