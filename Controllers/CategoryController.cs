@@ -44,6 +44,10 @@ namespace BEDefecto.Controllers
         [Route("api/categories")]
         public IActionResult PostCategory([FromBody] Category category)
         {
+            if (category == null || category.Name == null || category.Name == "")
+            {
+                return BadRequest();
+            }
             _context.Categories.Add(category);
             _context.SaveChanges();
             return Ok(category);

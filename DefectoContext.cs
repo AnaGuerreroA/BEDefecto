@@ -9,6 +9,7 @@ namespace BEDefecto
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         
         public DefectoContext(DbContextOptions<DefectoContext> options): base(options)
@@ -29,14 +30,15 @@ namespace BEDefecto
             });    
 
             List<Image> images = new List<Image>();
-            images.Add(new Image() { ImageId = 1, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 1 });
-            images.Add(new Image() { ImageId = 2, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 2 });
-            images.Add(new Image() { ImageId = 3, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 3 });
+            images.Add(new Image() { ImageId = 1, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 1 , ImageData = null});
+            images.Add(new Image() { ImageId = 2, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 2 , ImageData = null}); 
+            images.Add(new Image() { ImageId = 3, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 3 , ImageData = null});
 
             modelBuilder.Entity<Image>(imagen => {
                 imagen.ToTable("Images");
                 imagen.HasKey(i => i.ImageId);
                 imagen.Property(i => i.ImageName).IsRequired().HasMaxLength(150);
+                imagen.Property(i => i.ImageData).IsRequired(false).HasMaxLength(1000000000);
                 imagen.HasData(images);
             });
 
@@ -57,6 +59,9 @@ namespace BEDefecto
                 producto.Property(p => p.Description).IsRequired().HasMaxLength(150);
                 producto.HasData(productInit);
             });
+
+            
+
         }
 
     }

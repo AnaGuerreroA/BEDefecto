@@ -41,9 +41,30 @@ namespace BEDefecto.Controllers
         [Route("api/products")]
         public IActionResult PostProduct([FromBody] Product product)
         {
+            //get last product id
+            var lastProductId = _context.Products.OrderByDescending(p => p.ProductId).FirstOrDefault().ProductId;
+            lastProductId = lastProductId + 1;
+
+            //add images 
+            if (product.Images != null)
+            {
+                foreach (var image in product.Images)
+                {
+                    image.ProductId = lastProductId;
+                    //image.ImageData = Convert.FromBase64String(image.ImageDataBase64);
+                    _context.Images.Add(image);
+                    _context.SaveChanges();
+                }   
+                
             _context.Products.Add(product);
             _context.SaveChanges();
             return Ok(product);
+
+            }else  {
+                return BadRequest();
+            } 
+
+            
         }
 
         //httpdelete products/id
