@@ -23,22 +23,22 @@ namespace BEDefecto
 
             modelBuilder.Entity<Category>(categoria => {
                 categoria.ToTable("Categories");
-                categoria.HasKey(c => c.CategoryId);
+                categoria.HasKey(c => c.CategoryId);    
+                categoria.Property(c => c.CategoryId).ValueGeneratedOnAdd();
                 categoria.Property(c => c.Name).IsRequired().HasMaxLength(150);        
                 categoria.HasData(categories);
             
             });    
 
             List<Image> images = new List<Image>();
-            images.Add(new Image() { ImageId = 1, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 1 , ImageData = null});
-            images.Add(new Image() { ImageId = 2, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 2 , ImageData = null}); 
-            images.Add(new Image() { ImageId = 3, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 3 , ImageData = null});
+            images.Add(new Image() { ImageId = 1, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 1 });
+            images.Add(new Image() { ImageId = 2, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 2 }); 
+            images.Add(new Image() { ImageId = 3, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 3 });
 
             modelBuilder.Entity<Image>(imagen => {
                 imagen.ToTable("Images");
                 imagen.HasKey(i => i.ImageId);
                 imagen.Property(i => i.ImageName).IsRequired().HasMaxLength(150);
-                imagen.Property(i => i.ImageData).IsRequired(false).HasMaxLength(1000000000);
                 imagen.HasData(images);
             });
 
@@ -52,6 +52,7 @@ namespace BEDefecto
             {
                 producto.ToTable("Products");
                 producto.HasKey(p => p.ProductId);
+                producto.Property(p => p.ProductId).ValueGeneratedOnAdd();
                 producto.HasOne(p => p.Category).WithMany(c => c.Products).HasForeignKey(p => p.CategoryId);
                 producto.Property(p => p.Title).IsRequired().HasMaxLength(150);
                 producto.Property(p => p.Price).IsRequired();

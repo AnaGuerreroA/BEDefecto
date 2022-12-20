@@ -2,6 +2,7 @@ using System.Net.Mime;
 using BEDefecto.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace BEDefecto.Controllers
 {
@@ -36,35 +37,17 @@ namespace BEDefecto.Controllers
             return Ok(product);
         }
 
-        //httppost products
         [HttpPost]
         [Route("api/products")]
         public IActionResult PostProduct([FromBody] Product product)
-        {
-            //get last product id
-            var lastProductId = _context.Products.OrderByDescending(p => p.ProductId).FirstOrDefault().ProductId;
-            lastProductId = lastProductId + 1;
-
-            //add images 
-            if (product.Images != null)
+        {        
+            if (product == null || product.Title == null || product.Title == "")
             {
-                foreach (var image in product.Images)
-                {
-                    image.ProductId = lastProductId;
-                    //image.ImageData = Convert.FromBase64String(image.ImageDataBase64);
-                    _context.Images.Add(image);
-                    _context.SaveChanges();
-                }   
-                
+                return BadRequest();
+            }
             _context.Products.Add(product);
             _context.SaveChanges();
-            return Ok(product);
-
-            }else  {
-                return BadRequest();
-            } 
-
-            
+            return Ok(product);          
         }
 
         //httpdelete products/id
@@ -85,7 +68,7 @@ namespace BEDefecto.Controllers
         //httpput products/id
         [HttpPut]
         [Route("api/products/{id}")]
-        public IActionResult PutProduct(int id, [FromBody] Product product)
+        public IActionResult PutProduct(int id, [FromBody] Product product, IFormFile file)
         {
             var productUpdate = _context.Products.FirstOrDefault(p => p.ProductId == id);
             if  (productUpdate == null)
@@ -98,6 +81,47 @@ namespace BEDefecto.Controllers
             productUpdate.CategoryId = product.CategoryId;
             _context.SaveChanges();
             return Ok(productUpdate);
+        }
+
+        //upload file
+        [HttpPost]
+        [Route("api/upload")]
+        public IActionResult UploadFile()
+        {
+            
+           
+
+            var files = HttpContext.Request.Form.Files;
+            if (files.Count > 0)
+            {
+                foreach (var formFile in files)
+                {
+                    if (formFile.Length > 0)
+                    {
+                        // get the first file
+                        var file = formFile;
+
+                        // save the file to a folder
+                        //targetPath is the path to the folder where you want to save the file as imagenes
+
+                        var targetPath = "./imagenes/" + file.Name;
+                        using (var stream = new FileStream(targetPath, FileMode.Create))
+                        {
+                            file.CopyTo(stream);
+                        }
+                         var image = new Image();
+                         //get last product id as int
+                        var lastProduct = _context.Products.Max(p => p.ProductId);
+                         
+                        image.ProductId = lastProduct;
+                        image.ImageName = file.Name;
+                        _context.Images.Add(image);
+                        _context.SaveChanges();
+                    }
+                } 
+            }
+
+            return Ok();
         }
     }
 }

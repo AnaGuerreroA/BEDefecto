@@ -13,8 +13,7 @@ namespace BEDefecto.Models
         public int CategoryId { get; set; }
 
         public virtual Category Category { get; set; }
-        public virtual ICollection<Image> Images { get; set; }
-
+        public virtual ICollection<Image> Images { get; set; }       
         public Product()
         {
             ProductId = 0;
@@ -22,6 +21,8 @@ namespace BEDefecto.Models
             Price = 0;
             Description = "";
             Quantity= 0;
+            CategoryId = 0;
+            
         }
     }
 }
