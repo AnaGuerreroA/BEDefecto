@@ -3,6 +3,7 @@ using BEDefecto.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace BEDefecto.Controllers
 {
@@ -33,7 +34,7 @@ namespace BEDefecto.Controllers
         [Route("api/products/{id}")]
         public IActionResult GetProduct(int id)
         {
-            var product = _context.Products.FirstOrDefault(p => p.ProductId == id);
+            var product = _context.Products.Include(p => p.Category).Include(p => p.Images).FirstOrDefault(p => p.ProductId == id);
             return Ok(product);
         }
 
@@ -88,9 +89,6 @@ namespace BEDefecto.Controllers
         [Route("api/upload")]
         public IActionResult UploadFile()
         {
-            
-           
-
             var files = HttpContext.Request.Form.Files;
             if (files.Count > 0)
             {
@@ -109,12 +107,16 @@ namespace BEDefecto.Controllers
                         {
                             file.CopyTo(stream);
                         }
-                         var image = new Image();
-                         //get last product id as int
+                        
+                        // convert the image data to base64 encoding
+                        var fileContents = System.IO.File.ReadAllBytes(targetPath);
+                        
+                        var image = new Image();
+                        //get last product id as int
                         var lastProduct = _context.Products.Max(p => p.ProductId);
-                         
                         image.ProductId = lastProduct;
                         image.ImageName = file.Name;
+                        image.ImageData = fileContents; // set the base64-encoded image data to the ImageData property
                         _context.Images.Add(image);
                         _context.SaveChanges();
                     }
@@ -123,5 +125,6 @@ namespace BEDefecto.Controllers
 
             return Ok();
         }
+       
     }
 }

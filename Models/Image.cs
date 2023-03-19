@@ -11,12 +11,14 @@ namespace BEDefecto.Models
         public virtual Product Products { get; set; }
         public string ImageName { get; set; }
         [NotMapped]
-        public byte[]  Imagendata { get; set; }
+        public byte[]  ImageData { get; set; }
+        
         public Image()
         {
             ProductId = 0;
             ImageName = "";
             ImageId = 0;
+            ImageData = new byte[0];
         }
     }
 }

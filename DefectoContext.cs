@@ -29,16 +29,17 @@ namespace BEDefecto
                 categoria.HasData(categories);
             
             });    
-
+            
             List<Image> images = new List<Image>();
-            images.Add(new Image() { ImageId = 1, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 1 });
-            images.Add(new Image() { ImageId = 2, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 2 }); 
-            images.Add(new Image() { ImageId = 3, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 3 });
+            images.Add(new Image() { ImageId = 1, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 1, ImageData = new byte[0] });
+            images.Add(new Image() { ImageId = 2, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 2, ImageData = new byte[0] });
+            images.Add(new Image() { ImageId = 3, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 3, ImageData = new byte[0] });
 
             modelBuilder.Entity<Image>(imagen => {
                 imagen.ToTable("Images");
                 imagen.HasKey(i => i.ImageId);
                 imagen.Property(i => i.ImageName).IsRequired().HasMaxLength(150);
+                imagen.Property(i => i.ImageData).HasColumnType("varbinary(max)").IsRequired();
                 imagen.HasData(images);
             });
 

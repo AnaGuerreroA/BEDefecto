@@ -69,7 +69,7 @@ namespace BEDefecto.Controllers
         [Route("api/categories/{id}/products")]
         public IActionResult GetProductByCategory(int id, [FromQuery]int limit, [FromQuery]int offset)
         {
-            var products = _context.Products.Where(p => p.CategoryId == id).Skip(offset).Take(limit).ToList();
+            var products = _context.Products.Include(p => p.Category).Include(p => p.Images).Where(p => p.CategoryId == id).Skip(offset).Take(limit).ToList();
             return Ok(products);
         }
     }
