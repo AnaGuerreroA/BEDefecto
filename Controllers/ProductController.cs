@@ -1,9 +1,11 @@
 using System.Net.Mime;
 using BEDefecto.Models;
+using BEDefecto.Models.Image;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using SixLabors.ImageSharp.Formats.Jpeg;
 
 namespace BEDefecto.Controllers
 {
@@ -57,9 +59,14 @@ namespace BEDefecto.Controllers
         public IActionResult DeleteProduct(int id)
         {
             var product = _context.Products.FirstOrDefault(p => p.ProductId == id);
+            var image = _context.Images.FirstOrDefault(p => p.ImageId == id);
             if  (product == null)
             {
                 return NotFound();
+                if  (image == null)
+                {
+                     _context.Images.Remove(image);            
+                }
             }
             _context.Products.Remove(product);
             _context.SaveChanges();
@@ -84,7 +91,6 @@ namespace BEDefecto.Controllers
             return Ok(productUpdate);
         }
 
-        //upload file
         [HttpPost]
         [Route("api/upload")]
         public IActionResult UploadFile()
@@ -99,32 +105,39 @@ namespace BEDefecto.Controllers
                         // get the first file
                         var file = formFile;
 
-                        // save the file to a folder
-                        //targetPath is the path to the folder where you want to save the file as imagenes
+                        // load the image using ImageSharp
+                        var image = SixLabors.ImageSharp.Image.Load(file.OpenReadStream());
 
-                        var targetPath = "./imagenes/" + file.Name;
-                        using (var stream = new FileStream(targetPath, FileMode.Create))
+                        // resize the image to a smaller size (optional)
+                        image.Mutate(x => x.Resize(new ResizeOptions
                         {
-                            file.CopyTo(stream);
-                        }
-                        
+                            Size = new Size(800, 600),
+                            Mode = ResizeMode.Max
+                        }));
+
+                        // compress the image using JPEG format
+                        var memoryStream = new MemoryStream();
+                        image.SaveAsPng(memoryStream, new SixLabors.ImageSharp.Formats.Png.PngEncoder
+                        ());
+
                         // convert the image data to base64 encoding
-                        var fileContents = System.IO.File.ReadAllBytes(targetPath);
-                        
-                        var image = new Image();
+                        var fileContents = memoryStream.ToArray();
+
+                        var imageEntity = new ImageEntity();
                         //get last product id as int
                         var lastProduct = _context.Products.Max(p => p.ProductId);
-                        image.ProductId = lastProduct;
-                        image.ImageName = file.Name;
-                        image.ImageData = fileContents; // set the base64-encoded image data to the ImageData property
-                        _context.Images.Add(image);
+                        imageEntity.ProductId = lastProduct;
+                        imageEntity.ImageName = file.Name;
+                        imageEntity.ImageData = fileContents; // set the base64-encoded image data to the ImageData property
+                        _context.Images.Add(imageEntity);
                         _context.SaveChanges();
                     }
-                } 
+                }
             }
 
             return Ok();
         }
+
        
     }
 }

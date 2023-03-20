@@ -1,5 +1,5 @@
-using BEDefecto.Models;
 using Microsoft.AspNetCore.Mvc;
+using BEDefecto.Models.Image;
 using Microsoft.EntityFrameworkCore;
 
 namespace BEDefecto.Controllers
@@ -25,7 +25,7 @@ namespace BEDefecto.Controllers
         //httppost images
         [HttpPost]
         [Route("api/images")]
-        public IActionResult PostImage([FromBody] Image image)
+        public IActionResult PostImage([FromBody] ImageEntity image)
         {
             _context.Images.Add(image);
             _context.SaveChanges();

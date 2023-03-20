@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace BEDefecto.Models
+namespace BEDefecto.Models.Image
 {
-    public class Image
+    public class ImageEntity
     {
         public int ImageId { get; set; }
         public int ProductId { get; set; }
@@ -13,7 +13,7 @@ namespace BEDefecto.Models
         [NotMapped]
         public byte[]  ImageData { get; set; }
         
-        public Image()
+        public ImageEntity()
         {
             ProductId = 0;
             ImageName = "";

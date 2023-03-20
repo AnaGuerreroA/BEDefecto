@@ -1,4 +1,5 @@
 using BEDefecto.Models;
+using BEDefecto.Models.Image;
 using Microsoft.EntityFrameworkCore;
 
 namespace BEDefecto
@@ -9,7 +10,7 @@ namespace BEDefecto
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Image> Images { get; set; }
+        public DbSet<ImageEntity> Images { get; set; }
 
         
         public DefectoContext(DbContextOptions<DefectoContext> options): base(options)
@@ -30,12 +31,12 @@ namespace BEDefecto
             
             });    
             
-            List<Image> images = new List<Image>();
-            images.Add(new Image() { ImageId = 1, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 1, ImageData = new byte[0] });
-            images.Add(new Image() { ImageId = 2, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 2, ImageData = new byte[0] });
-            images.Add(new Image() { ImageId = 3, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 3, ImageData = new byte[0] });
+            List<ImageEntity> images = new List<ImageEntity>();
+            images.Add(new ImageEntity() { ImageId = 1, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 1, ImageData = new byte[0] });
+            images.Add(new ImageEntity() { ImageId = 2, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 2, ImageData = new byte[0] });
+            images.Add(new ImageEntity() { ImageId = 3, ImageName = "https://placeimg.com/640/480/any?random=${Math.random()}", ProductId = 3, ImageData = new byte[0] });
 
-            modelBuilder.Entity<Image>(imagen => {
+            modelBuilder.Entity<ImageEntity>(imagen => {
                 imagen.ToTable("Images");
                 imagen.HasKey(i => i.ImageId);
                 imagen.Property(i => i.ImageName).IsRequired().HasMaxLength(150);

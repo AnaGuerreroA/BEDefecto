@@ -123,3 +123,4 @@ C:\Users\HomePC\Desktop\beDefecto\obj\Debug\net6.0\refint\BEDefecto.dll
 C:\Users\HomePC\Desktop\beDefecto\obj\Debug\net6.0\BEDefecto.pdb
 C:\Users\HomePC\Desktop\beDefecto\obj\Debug\net6.0\BEDefecto.genruntimeconfig.cache
 C:\Users\HomePC\Desktop\beDefecto\obj\Debug\net6.0\ref\BEDefecto.dll
+C:\Users\HomePC\Desktop\beDefecto\bin\Debug\net6.0\SixLabors.ImageSharp.dll

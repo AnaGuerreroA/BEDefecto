@@ -1,6 +1,8 @@
 using System.Net.Mime;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using BEDefecto.Models.Image;
+
 namespace BEDefecto.Models
 {
     public class Product
@@ -13,7 +15,7 @@ namespace BEDefecto.Models
         public int CategoryId { get; set; }
 
         public virtual Category Category { get; set; }
-        public virtual ICollection<Image> Images { get; set; }       
+        public virtual ICollection<ImageEntity> Images { get; set; }       
         public Product()
         {
             ProductId = 0;

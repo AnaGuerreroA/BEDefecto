@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "hYC5w6/57DFzWc2V4+7AQV4RgXVnECPwEqwdT28Csk8ZIGTjLa/+cmSncV18mazfVqQdXAhETipblxYDApDOBQ==",
+  "dgSpecHash": "TkO6naiEb/0Zelakzzqu/1VnIWhfMKkhVi8g7nRMqtnH49rRgIVx6uk6FTv0XeA9nf9n1mDmrTEoCFML0jFwuQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\HomePC\\Desktop\\beDefecto\\BEDefecto.csproj",
   "expectedPackageFiles": [
@@ -33,6 +33,7 @@
     "C:\\Users\\HomePC\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
     "C:\\Users\\HomePC\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\HomePC\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\HomePC\\.nuget\\packages\\sixlabors.imagesharp\\3.0.0\\sixlabors.imagesharp.3.0.0.nupkg.sha512",
     "C:\\Users\\HomePC\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
     "C:\\Users\\HomePC\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
     "C:\\Users\\HomePC\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
